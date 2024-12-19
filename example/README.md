@@ -50,6 +50,12 @@ TeethSelector(
   // default: []
   initiallySelected: ["11", "47", "48"],
 
+  // colorize some of the teeth
+  // default: {}
+  colorize: {
+    "11": Colors.purple,
+  },
+
   // Text denotes the left side of the mouth
   // default: "Left"
   leftString: "Left",

@@ -10,6 +10,7 @@ class TeethSelector extends StatefulWidget {
   final Color selectedColor;
   final Color tooltipColor;
   final List<String> initiallySelected;
+  final Map<String, Color> colorized;
   final String leftString;
   final String rightString;
   final bool showPrimary;
@@ -23,6 +24,7 @@ class TeethSelector extends StatefulWidget {
     this.selectedColor = Colors.blue,
     this.tooltipColor = Colors.black,
     this.initiallySelected = const [],
+    this.colorized = const {},
     this.notation,
     this.showPrimary = false,
     this.showPermanent = true,
@@ -102,7 +104,7 @@ class _TeethSelectorState extends State<TeethSelector> {
                             duration: const Duration(milliseconds: 500),
                             clipBehavior: Clip.antiAlias,
                             decoration: ShapeDecoration(
-                              color: tooth.selected ? widget.selectedColor : Colors.white,
+                              color: tooth.selected ? widget.selectedColor : widget.colorized[key] ?? Colors.white,
                               shape: ToothBorder(tooth.path),
                             ),
                           ),
