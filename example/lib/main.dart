@@ -13,6 +13,8 @@ void main() => runApp(
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TeethSelector(onChange: (selected) => print(selected));
+    return TeethSelector(
+      onChange: (selected) => print(selected),
+    );
   }
 }

@@ -41,6 +41,10 @@ TeethSelector(
   // default: Colors.blue
   selectedColor: Colors.yellow,
 
+  // Default color of the teeth that are not selected
+  // default: Colors.white
+  unselectedColor: Colors.red,
+
   // Color of the tooltip
   // default: Colors.black
   tooltipColor: Colors.purple,
@@ -50,11 +54,36 @@ TeethSelector(
   // default: []
   initiallySelected: ["11", "47", "48"],
 
+  // background color of the chart
+  // default: Colors.transparent
+  backgroundColor: Colors.grey,
+
   // colorize some of the teeth
   // default: {}
   colorize: {
     "11": Colors.purple,
   },
+
+  // Colorize the stroke of some teeth
+  // default: {}
+  strokeColorized: {
+    "11": Colors.purple,
+  },
+
+  // Default stroke color
+  // default: Colors.black
+  defaultStrokeColor: Colors.red,
+
+  // Stroke width of specific teeth
+  // default: {}
+  strokeWidth: {
+    "11": 10.0,
+    "12": 10.0,
+  },
+
+  // Stroke width of all other teeth
+  // default: 1.0
+  defaultStrokeWidth: 10.0,
 
   // Text denotes the left side of the mouth
   // default: "Left"
@@ -63,6 +92,18 @@ TeethSelector(
   // Text denotes the right side of the mouth
   // default: "Right"
   rightString: "جهة اليمين",
+
+  // Text style for the two strings above
+  // default: null
+  textStyle: TextStyle(
+    fontSize: 16,
+  ),
+
+  // Text style for the tooltip
+  // default: null
+  tooltipTextStyle: TextStyle(
+    fontSize: 16,
+  ),
 )
 ```
 

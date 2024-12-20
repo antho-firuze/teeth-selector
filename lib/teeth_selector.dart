@@ -7,29 +7,45 @@ typedef Data = ({Size size, Map<String, Tooth> teeth});
 
 class TeethSelector extends StatefulWidget {
   final bool multiSelect;
+  final Color backgroundColor;
   final Color selectedColor;
+  final Color unselectedColor;
   final Color tooltipColor;
   final List<String> initiallySelected;
   final Map<String, Color> colorized;
+  final Map<String, Color> StrokedColorized;
+  final Color defaultStrokeColor;
+  final Map<String, double> strokeWidth;
+  final double defaultStrokeWidth;
   final String leftString;
   final String rightString;
   final bool showPrimary;
   final bool showPermanent;
   final void Function(List<String> selected) onChange;
   final String Function(String isoString)? notation;
+  final TextStyle? textStyle;
+  final TextStyle? tooltipTextStyle;
 
   const TeethSelector({
     super.key,
     this.multiSelect = false,
+    this.backgroundColor = Colors.transparent,
     this.selectedColor = Colors.blue,
+    this.unselectedColor = Colors.white,
     this.tooltipColor = Colors.black,
     this.initiallySelected = const [],
     this.colorized = const {},
+    this.StrokedColorized = const {},
+    this.strokeWidth = const {},
+    this.defaultStrokeWidth = 1,
+    this.defaultStrokeColor = Colors.black,
     this.notation,
     this.showPrimary = false,
     this.showPermanent = true,
     this.leftString = "Left",
     this.rightString = "Right",
+    this.textStyle = null,
+    this.tooltipTextStyle = null,
     required this.onChange,
   });
 
@@ -54,6 +70,7 @@ class _TeethSelectorState extends State<TeethSelector> {
     if (data.size == Size.zero) return const UnconstrainedBox();
 
     return Card(
+      color: widget.backgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FittedBox(
@@ -64,12 +81,12 @@ class _TeethSelectorState extends State<TeethSelector> {
                 Positioned(
                   left: 10,
                   top: data.size.height * 0.5 - 15,
-                  child: Text(widget.rightString),
+                  child: Text(widget.rightString, style: widget.textStyle),
                 ),
                 Positioned(
                   right: 10,
                   top: data.size.height * 0.5 - 15,
-                  child: Text(widget.leftString),
+                  child: Text(widget.leftString, style: widget.textStyle),
                 ),
                 // teeth
                 for (final MapEntry(key: key, value: tooth) in data.teeth.entries)
@@ -98,14 +115,21 @@ class _TeethSelectorState extends State<TeethSelector> {
                           triggerMode: TooltipTriggerMode.manual,
                           message: widget.notation == null ? key : widget.notation!(key),
                           textAlign: TextAlign.center,
+                          textStyle: widget.tooltipTextStyle,
                           preferBelow: false,
                           decoration: BoxDecoration(color: widget.tooltipColor, boxShadow: kElevationToShadow[6]),
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 500),
                             clipBehavior: Clip.antiAlias,
                             decoration: ShapeDecoration(
-                              color: tooth.selected ? widget.selectedColor : widget.colorized[key] ?? Colors.white,
-                              shape: ToothBorder(tooth.path),
+                              color: tooth.selected
+                                  ? widget.selectedColor
+                                  : widget.colorized[key] ?? widget.unselectedColor,
+                              shape: ToothBorder(
+                                tooth.path,
+                                strokeColor: widget.StrokedColorized[key] ?? widget.defaultStrokeColor,
+                                strokeWidth: widget.strokeWidth[key] ?? widget.defaultStrokeWidth,
+                              ),
                             ),
                           ),
                         ),
@@ -147,9 +171,15 @@ class Tooth {
 }
 
 class ToothBorder extends ShapeBorder {
-  const ToothBorder(this.path);
-
   final Path path;
+  final double strokeWidth;
+  final Color strokeColor;
+
+  const ToothBorder(
+    this.path, {
+    required this.strokeWidth,
+    required this.strokeColor,
+  });
 
   @override
   EdgeInsetsGeometry get dimensions => EdgeInsets.zero;
@@ -166,8 +196,8 @@ class ToothBorder extends ShapeBorder {
   void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
     final paint = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2
-      ..color = Colors.black54;
+      ..strokeWidth = strokeWidth
+      ..color = strokeColor;
     canvas.drawPath(getOuterPath(rect), paint);
   }
 
