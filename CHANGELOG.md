@@ -1,4 +1,7 @@
 ## 0.2.1
+* Changed the SVG graphic to a better one.
+
+## 0.2.1
 * User must provide the Card container widget.
 
 ## 0.2.0

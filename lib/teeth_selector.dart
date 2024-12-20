@@ -29,12 +29,12 @@ class TeethSelector extends StatefulWidget {
     super.key,
     this.multiSelect = false,
     this.selectedColor = Colors.blue,
-    this.unselectedColor = Colors.white,
+    this.unselectedColor = Colors.grey,
     this.tooltipColor = Colors.black,
     this.initiallySelected = const [],
     this.colorized = const {},
     this.StrokedColorized = const {},
-    this.defaultStrokeColor = Colors.black,
+    this.defaultStrokeColor = Colors.transparent,
     this.strokeWidth = const {},
     this.defaultStrokeWidth = 1,
     this.notation,
@@ -74,12 +74,12 @@ class _TeethSelectorState extends State<TeethSelector> {
           children: [
             Positioned(
               left: 10,
-              top: data.size.height * 0.5 - 15,
+              top: data.size.height * 0.5 - 11,
               child: Text(widget.rightString, style: widget.textStyle),
             ),
             Positioned(
               right: 10,
-              top: data.size.height * 0.5 - 15,
+              top: data.size.height * 0.5 - 11,
               child: Text(widget.leftString, style: widget.textStyle),
             ),
             // teeth

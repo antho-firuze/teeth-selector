@@ -1,6 +1,6 @@
 name: teeth_selector
 description: A simple dental chart showing teeth that can be selected/unselected like a set of checkboxes.
-version: 0.2.1
+version: 0.2.2
 homepage: https://github.com/alselawi/teeth-selector
 
 environment:
@@ -19,6 +19,8 @@ dev_dependencies:
 screenshots:
   - description: 'This screenshot shows an example of teeth selector.'
     path: screenshots/screenshot.png
+  - description: 'This screenshot shows an example of teeth selector with primary teeth and multiple teeth selected.'
+    path: screenshots/screenshot2.png
 
 topics:
   - ui

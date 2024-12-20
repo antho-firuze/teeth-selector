@@ -67,7 +67,7 @@ TeethSelector(
   },
 
   // Default stroke color
-  // default: Colors.black
+  // default: Colors.transparent
   defaultStrokeColor: Colors.red,
 
   // Stroke width of specific teeth
@@ -103,5 +103,5 @@ TeethSelector(
 )
 ```
 
-![Basic teeth selector](https://media.giphy.com/media/hsyt37quslXsBiXPch/giphy.gif)
-![Teeth selector with some options](https://media.giphy.com/media/lwaapkEZp5jZKhjV5e/giphy.gif)
+![Basic teeth selector](https://media.giphy.com/media/X3MyQC4P8XGteUM7FL/giphy.gif)
+![Teeth selector with some options](https://media.giphy.com/media/ZZYmDrTDsnnoKE8hTi/giphy.gif)
