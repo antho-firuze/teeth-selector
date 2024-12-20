@@ -54,10 +54,6 @@ TeethSelector(
   // default: []
   initiallySelected: ["11", "47", "48"],
 
-  // background color of the chart
-  // default: Colors.transparent
-  backgroundColor: Colors.grey,
-
   // colorize some of the teeth
   // default: {}
   colorize: {

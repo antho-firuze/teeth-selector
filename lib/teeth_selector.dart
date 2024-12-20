@@ -7,7 +7,6 @@ typedef Data = ({Size size, Map<String, Tooth> teeth});
 
 class TeethSelector extends StatefulWidget {
   final bool multiSelect;
-  final Color backgroundColor;
   final Color selectedColor;
   final Color unselectedColor;
   final Color tooltipColor;
@@ -29,7 +28,6 @@ class TeethSelector extends StatefulWidget {
   const TeethSelector({
     super.key,
     this.multiSelect = false,
-    this.backgroundColor = Colors.transparent,
     this.selectedColor = Colors.blue,
     this.unselectedColor = Colors.white,
     this.tooltipColor = Colors.black,
@@ -69,75 +67,68 @@ class _TeethSelectorState extends State<TeethSelector> {
   Widget build(BuildContext context) {
     if (data.size == Size.zero) return const UnconstrainedBox();
 
-    return Card(
-      color: widget.backgroundColor,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FittedBox(
-          child: SizedBox.fromSize(
-            size: data.size,
-            child: Stack(
-              children: [
-                Positioned(
-                  left: 10,
-                  top: data.size.height * 0.5 - 15,
-                  child: Text(widget.rightString, style: widget.textStyle),
-                ),
-                Positioned(
-                  right: 10,
-                  top: data.size.height * 0.5 - 15,
-                  child: Text(widget.leftString, style: widget.textStyle),
-                ),
-                // teeth
-                for (final MapEntry(key: key, value: tooth) in data.teeth.entries)
-                  if ((widget.showPrimary || int.parse(key) < 50) && (widget.showPermanent || int.parse(key) > 50))
-                    Positioned.fromRect(
-                      rect: tooth.rect,
-                      child: GestureDetector(
-                        key: Key("tooth-iso-$key-${tooth.selected ? "selected" : "not-selected"}"),
-                        onTap: () {
-                          setState(() {
-                            if (widget.multiSelect == false) {
-                              for (final tooth in data.teeth.entries) {
-                                if (tooth.key != key) {
-                                  tooth.value.selected = false;
-                                }
-                              }
+    return FittedBox(
+      child: SizedBox.fromSize(
+        size: data.size,
+        child: Stack(
+          children: [
+            Positioned(
+              left: 10,
+              top: data.size.height * 0.5 - 15,
+              child: Text(widget.rightString, style: widget.textStyle),
+            ),
+            Positioned(
+              right: 10,
+              top: data.size.height * 0.5 - 15,
+              child: Text(widget.leftString, style: widget.textStyle),
+            ),
+            // teeth
+            for (final MapEntry(key: key, value: tooth) in data.teeth.entries)
+              if ((widget.showPrimary || int.parse(key) < 50) && (widget.showPermanent || int.parse(key) > 50))
+                Positioned.fromRect(
+                  rect: tooth.rect,
+                  child: GestureDetector(
+                    key: Key("tooth-iso-$key-${tooth.selected ? "selected" : "not-selected"}"),
+                    onTap: () {
+                      setState(() {
+                        if (widget.multiSelect == false) {
+                          for (final tooth in data.teeth.entries) {
+                            if (tooth.key != key) {
+                              tooth.value.selected = false;
                             }
-                            tooth.selected = !tooth.selected;
-                            widget.onChange(data.teeth.entries
-                                .where((tooth) => tooth.value.selected)
-                                .map((tooth) => tooth.key)
-                                .toList());
-                          });
-                        },
-                        child: Tooltip(
-                          triggerMode: TooltipTriggerMode.manual,
-                          message: widget.notation == null ? key : widget.notation!(key),
-                          textAlign: TextAlign.center,
-                          textStyle: widget.tooltipTextStyle,
-                          preferBelow: false,
-                          decoration: BoxDecoration(color: widget.tooltipColor, boxShadow: kElevationToShadow[6]),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 500),
-                            clipBehavior: Clip.antiAlias,
-                            decoration: ShapeDecoration(
-                              color: tooth.selected
-                                  ? widget.selectedColor
-                                  : widget.colorized[key] ?? widget.unselectedColor,
-                              shape: ToothBorder(
-                                tooth.path,
-                                strokeColor: widget.StrokedColorized[key] ?? widget.defaultStrokeColor,
-                                strokeWidth: widget.strokeWidth[key] ?? widget.defaultStrokeWidth,
-                              ),
-                            ),
+                          }
+                        }
+                        tooth.selected = !tooth.selected;
+                        widget.onChange(data.teeth.entries
+                            .where((tooth) => tooth.value.selected)
+                            .map((tooth) => tooth.key)
+                            .toList());
+                      });
+                    },
+                    child: Tooltip(
+                      triggerMode: TooltipTriggerMode.manual,
+                      message: widget.notation == null ? key : widget.notation!(key),
+                      textAlign: TextAlign.center,
+                      textStyle: widget.tooltipTextStyle,
+                      preferBelow: false,
+                      decoration: BoxDecoration(color: widget.tooltipColor, boxShadow: kElevationToShadow[6]),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 500),
+                        clipBehavior: Clip.antiAlias,
+                        decoration: ShapeDecoration(
+                          color:
+                              tooth.selected ? widget.selectedColor : widget.colorized[key] ?? widget.unselectedColor,
+                          shape: ToothBorder(
+                            tooth.path,
+                            strokeColor: widget.StrokedColorized[key] ?? widget.defaultStrokeColor,
+                            strokeWidth: widget.strokeWidth[key] ?? widget.defaultStrokeWidth,
                           ),
                         ),
                       ),
                     ),
-              ],
-            ),
-          ),
+                  ),
+                ),
+          ],
         ),
       ),
     );
