@@ -1,4 +1,4 @@
-## 0.2.1
+## 0.2.2
 * Changed the SVG graphic to a better one.
 
 ## 0.2.1
