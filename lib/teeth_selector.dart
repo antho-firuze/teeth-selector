@@ -18,11 +18,15 @@ class TeethSelector extends StatefulWidget {
   final double defaultStrokeWidth;
   final String leftString;
   final String rightString;
+  final String topString;
+  final String bottomString;
   final bool showPrimary;
   final bool showPermanent;
+  final bool showKey;
   final void Function(List<String> selected) onChange;
   final String Function(String isoString)? notation;
   final TextStyle? textStyle;
+  final TextStyle? keyTextStyle;
   final TextStyle? tooltipTextStyle;
 
   const TeethSelector({
@@ -40,9 +44,13 @@ class TeethSelector extends StatefulWidget {
     this.notation,
     this.showPrimary = false,
     this.showPermanent = true,
+    this.showKey = true,
     this.leftString = "Left",
     this.rightString = "Right",
+    this.topString = "Top",
+    this.bottomString = "Bottom",
     this.textStyle = null,
+    this.keyTextStyle = null,
     this.tooltipTextStyle = null,
     required this.onChange,
   });
@@ -71,6 +79,7 @@ class _TeethSelectorState extends State<TeethSelector> {
       child: SizedBox.fromSize(
         size: data.size,
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
             Positioned(
               left: 10,
@@ -82,9 +91,23 @@ class _TeethSelectorState extends State<TeethSelector> {
               top: data.size.height * 0.5 - 11,
               child: Text(widget.leftString, style: widget.textStyle),
             ),
+            Positioned.fill(
+              top: data.size.height * -0.35,
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(widget.topString, style: widget.textStyle),
+              ),
+            ),
+            Positioned.fill(
+              top: data.size.height * 0.35,
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(widget.bottomString, style: widget.textStyle),
+              ),
+            ),
             // teeth
             for (final MapEntry(key: key, value: tooth) in data.teeth.entries)
-              if ((widget.showPrimary || int.parse(key) < 50) && (widget.showPermanent || int.parse(key) > 50))
+              if ((widget.showPrimary || int.parse(key) < 50) && (widget.showPermanent || int.parse(key) > 50)) ...[
                 Positioned.fromRect(
                   rect: tooth.rect,
                   child: GestureDetector(
@@ -106,7 +129,7 @@ class _TeethSelectorState extends State<TeethSelector> {
                       });
                     },
                     child: Tooltip(
-                      triggerMode: TooltipTriggerMode.manual,
+                      triggerMode: TooltipTriggerMode.longPress,
                       message: widget.notation == null ? key : widget.notation!(key),
                       textAlign: TextAlign.center,
                       textStyle: widget.tooltipTextStyle,
@@ -128,6 +151,163 @@ class _TeethSelectorState extends State<TeethSelector> {
                     ),
                   ),
                 ),
+                if (widget.showKey) ...[
+                  // PERMANENT
+                  // TOP LEFT
+                  if ([11, 12].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left,
+                      top: tooth.rect.top - 20,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([13, 14, 15].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left - 15,
+                      top: tooth.rect.top - 10,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([16, 17, 18].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left - 20,
+                      top: tooth.rect.top,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  // TOP RIGHT
+                  if ([21, 22].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right - 15,
+                      top: tooth.rect.top - 20,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([23, 24, 25].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right,
+                      top: tooth.rect.top - 10,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([26, 27, 28].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right + 5,
+                      top: tooth.rect.top,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  // BOTTOM RIGHT
+                  if ([31, 32].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right - 15,
+                      top: tooth.rect.top + tooth.rect.height + 5,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([33, 34, 35].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right,
+                      top: tooth.rect.top + 30,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([36, 37, 38].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right + 5,
+                      top: tooth.rect.top + 10,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  // BOTTOM LEFT
+                  if ([41, 42].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left,
+                      top: tooth.rect.top + tooth.rect.height + 5,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([43, 44, 45].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left - 15,
+                      top: tooth.rect.top + 30,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([46, 47, 48].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left - 23,
+                      top: tooth.rect.top + 10,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  // PRIMARY
+                  // TOP LEFT
+                  if ([51, 52].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left,
+                      top: tooth.rect.top - 20,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([53].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left - 15,
+                      top: tooth.rect.top - 10,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([54, 55].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left - 25,
+                      top: tooth.rect.top,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  // TOP RIGHT
+                  if ([61, 62].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right,
+                      top: tooth.rect.top - 20,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([63].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right + 5,
+                      top: tooth.rect.top - 10,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([64, 65].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right + 10,
+                      top: tooth.rect.top,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  // BOTTOM LEFT
+                  if ([81].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left,
+                      top: tooth.rect.top + 50,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([82, 83].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left - 15,
+                      top: tooth.rect.top + 40,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([84, 85].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.left - 25,
+                      top: tooth.rect.top + 15,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  // BOTTOM RIGHT
+                  if ([71].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right - 10,
+                      top: tooth.rect.top + 50,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([72, 73].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right,
+                      top: tooth.rect.top + 40,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                  if ([74, 75].contains(int.parse(key)))
+                    Positioned(
+                      left: tooth.rect.right + 10,
+                      top: tooth.rect.top + 15,
+                      child: Text("$key", style: widget.keyTextStyle),
+                    ),
+                ]
+              ],
           ],
         ),
       ),
